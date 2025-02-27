@@ -40,7 +40,7 @@ app.post('/describe', upload.single('image'), async (req, res) => {
       contents: [{
         role: "user",
         parts: [
-          { text: "Describe esta imagen de manera detallada, paso a paso." },
+          { text: "Descripción imagen: " },
           { inline_data: { mime_type: "image/jpeg", data: base64Image } }
         ]
       }]
