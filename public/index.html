@@ -3,31 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <title>Subir Imagen</title>
 </head>
 <body>
-    <h2>Sube una imagen para obtener una descripción</h2>
-    <input type="file" id="imageInput" accept="image/*">
-    <button onclick="uploadImage()">Subir y Describir</button>
-    <p id="description"></p>
+    <div class="upload-container">
+        <h2>Sube una imagen para obtener una descripción</h2>
+        
+        <div class="upload-area">
+            <label for="imageInput" class="file-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Arrastra tu imagen aquí o haz clic para seleccionar</span>
+                <div id="fileName" class="file-name"></div>
+            </label>
+            <input type="file" id="imageInput" accept="image/*">
+        </div>
+        
+        <button onclick="uploadImage()">
+            <span id="buttonText">Subir y Describir</span>
+            <span id="loadingSpinner" class="loading" style="display: none;"></span>
+        </button>
+        
+        <div id="description"></div>
+    </div>
     
     <script>
+        // Mostrar el nombre del archivo seleccionado
+        document.getElementById('imageInput').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'Ningún archivo seleccionado';
+            document.getElementById('fileName').innerText = fileName;
+        });
+        
         async function uploadImage() {
             const fileInput = document.getElementById('imageInput');
+            const buttonText = document.getElementById('buttonText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const description = document.getElementById('description');
+            
             if (!fileInput.files.length) {
                 alert('Selecciona una imagen primero');
                 return;
             }
-            const formData = new FormData();
-            formData.append('image', fileInput.files[0]);
             
-            const response = await fetch('/describe', {
-                method: 'POST',
-                body: formData
-            });
+            // Mostrar estado de carga
+            buttonText.style.display = 'none';
+            loadingSpinner.style.display = 'inline-block';
+            description.innerText = 'Procesando imagen...';
             
-            const data = await response.json();
-            document.getElementById('description').innerText = data.description || 'Error al obtener la descripción';
+            try {
+                const formData = new FormData();
+                formData.append('image', fileInput.files[0]);
+                
+                const response = await fetch('/describe', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                description.innerText = data.description || 'Error al obtener la descripción';
+            } catch (error) {
+                description.innerText = 'Error al procesar la imagen';
+                console.error(error);
+            } finally {
+                // Restaurar botón
+                buttonText.style.display = 'inline';
+                loadingSpinner.style.display = 'none';
+            }
         }
     </script>
 </body>
