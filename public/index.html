@@ -6,23 +6,23 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <title>Subir Imagen</title>
+    <title>Pujar imatge</title>
 </head>
 <body>
     <div class="upload-container">
-        <h2>Sube una imagen para obtener una descripción</h2>
+        <h2>Puja una imatge per obtenir una descripció</h2>
         
         <div class="upload-area">
             <label for="imageInput" class="file-label">
                 <i class="fas fa-cloud-upload-alt"></i>
-                <span>Arrastra tu imagen aquí o haz clic para seleccionar</span>
+                <span>Arrossega la teva imatge aquí o fes clic per seleccionar-la</span>
                 <div id="fileName" class="file-name"></div>
             </label>
             <input type="file" id="imageInput" accept="image/*">
         </div>
         
         <button onclick="uploadImage()">
-            <span id="buttonText">Subir y Describir</span>
+            <span id="buttonText">Pujar i descriure.</span>
             <span id="loadingSpinner" class="loading" style="display: none;"></span>
         </button>
         
